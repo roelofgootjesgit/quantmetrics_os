@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Clone or update all QuantMetrics repos under one parent folder and write orchestrator/.env
-# with sibling paths (quantbuildv1 / quantbridgev1 / quantlogv1).
+# Clone or update Quant suite repos under one parent folder and write orchestrator/.env
+# with sibling paths: quantmetrics_os, quantbuildv1, quantbridgev1, quantlogv1, quantanalyticsv1 (optional analytics).
 #
 # Usage:
 #   chmod +x scripts/clone_quant_suite.sh
@@ -8,7 +8,7 @@
 #   QUANT_SUITE_ROOT=~/dev/quant ./scripts/clone_quant_suite.sh
 #   GITHUB_USER=roelofgootjesgit QUANTBUILD_BRANCH=v2-development ./scripts/clone_quant_suite.sh
 #
-# VS Code: open quantmetrics_os/vscode/quant-suite.code-workspace (sibling folders as in this layout).
+# VS Code: open quantmetrics_os/vscode/quant-suite.code-workspace (QuantOS + siblings as in this layout).
 
 set -euo pipefail
 
@@ -17,9 +17,10 @@ QUANT_SUITE_ROOT="${QUANT_SUITE_ROOT:-${HOME}/quant_suite}"
 QUANTBUILD_BRANCH="${QUANTBUILD_BRANCH:-v2-development}"
 
 REPO_METRICS="https://github.com/${GITHUB_USER}/quantmetrics_os.git"
-REPO_BUILD="https://github.com/${GITHUB_USER}/quantbuildE1.git"
-REPO_BRIDGE="https://github.com/${GITHUB_USER}/quantBridge-v.1.git"
-REPO_LOG="https://github.com/${GITHUB_USER}/quantlog-v.1.git"
+REPO_BUILD="https://github.com/${GITHUB_USER}/quantbuildv1.git"
+REPO_BRIDGE="https://github.com/${GITHUB_USER}/quantbridgev1.git"
+REPO_LOG="https://github.com/${GITHUB_USER}/quantlogv1.git"
+REPO_ANALYTICS="https://github.com/${GITHUB_USER}/quantanalyticsv1.git"
 
 mkdir -p "${QUANT_SUITE_ROOT}"
 cd "${QUANT_SUITE_ROOT}"
@@ -39,6 +40,7 @@ clone_or_pull "${REPO_METRICS}" quantmetrics_os
 clone_or_pull "${REPO_BUILD}" quantbuildv1
 clone_or_pull "${REPO_BRIDGE}" quantbridgev1
 clone_or_pull "${REPO_LOG}" quantlogv1
+clone_or_pull "${REPO_ANALYTICS}" quantanalyticsv1
 
 echo "==> checkout QuantBuild branch ${QUANTBUILD_BRANCH}"
 git -C quantbuildv1 fetch origin "${QUANTBUILD_BRANCH}" || true
@@ -79,6 +81,7 @@ echo "  ${QUANT_SUITE_ROOT}/quantmetrics_os"
 echo "  ${QUANT_SUITE_ROOT}/quantbuildv1   (branch: $(git -C quantbuildv1 branch --show-current 2>/dev/null || echo '?'))"
 echo "  ${QUANT_SUITE_ROOT}/quantbridgev1"
 echo "  ${QUANT_SUITE_ROOT}/quantlogv1"
+echo "  ${QUANT_SUITE_ROOT}/quantanalyticsv1"
 echo ""
 echo "Check orchestrator:"
 echo "  cd ${QUANT_SUITE_ROOT}/quantmetrics_os && python orchestrator/quantmetrics.py check"

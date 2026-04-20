@@ -1,19 +1,22 @@
-# QuantMetrics OS
+# quantmetrics_os
 
-**Orchestration layer for a systematic multi-asset trading suite — QuantBuild, QuantBridge, QuantLog.**
+**Orchestrator for the Quant suite:** sibling checkouts **`quantbuildv1`** (signals/risk), **`quantbridgev1`** (execution), **`quantlogv1`** (JSONL observability), **`quantanalyticsv1`** (read-only JSONL analytics).
 
-This repository is the **front door**: one place to resolve paths, environment, and subprocess entrypoints so research, execution, and observability run as a single system — not three disconnected scripts.
+This repository is the **front door**: one place to resolve paths, environment, and subprocess entrypoints so research, execution, and observability run as a single system — not three disconnected scripts. *(Older docs may say “QuantMetrics OS”; same repo.)*
+
+**Clone folder on disk:** `quantmetrics_os/` (matches the default GitHub repo name until you rename the remote).
 
 *Nederlandstalige details en handouts: zie [`docs/`](docs/).*
 
 ### Suite repositories (GitHub)
 
-| Component | Repository |
+| Repo | Remote |
 | --- | --- |
-| **QuantMetrics OS** (this repo) | [roelofgootjesgit/quantmetrics_os](https://github.com/roelofgootjesgit/quantmetrics_os) |
-| **QuantBuild** | [roelofgootjesgit/quantbuildE1](https://github.com/roelofgootjesgit/quantbuildE1) |
-| **QuantBridge** | [roelofgootjesgit/quantBridge-v.1](https://github.com/roelofgootjesgit/quantBridge-v.1) |
-| **QuantLog** | [roelofgootjesgit/quantlog-v.1](https://github.com/roelofgootjesgit/quantlog-v.1) |
+| `quantmetrics_os` (**this**) | [roelofgootjesgit/quantmetrics_os](https://github.com/roelofgootjesgit/quantmetrics_os) |
+| `quantbuildv1` | [roelofgootjesgit/quantbuildv1](https://github.com/roelofgootjesgit/quantbuildv1) |
+| `quantbridgev1` | [roelofgootjesgit/quantbridgev1](https://github.com/roelofgootjesgit/quantbridgev1) |
+| `quantlogv1` | [roelofgootjesgit/quantlogv1](https://github.com/roelofgootjesgit/quantlogv1) |
+| `quantanalyticsv1` | [roelofgootjesgit/quantanalyticsv1](https://github.com/roelofgootjesgit/quantanalyticsv1) |
 
 *Fork under another user? Update links or use `GITHUB_USER` in [`scripts/clone_quant_suite.sh`](scripts/clone_quant_suite.sh).*
 
@@ -37,57 +40,58 @@ Static badges (update URLs/query strings when you publish new validation numbers
 | Max drawdown | −7.1% |
 | FTMO Monte Carlo pass rate | 51.4% |
 
-### Equity curve (QuantBuild)
+### Equity curve (`quantbuildv1`)
 
-Cumulative R from a reproducible XAUUSD backtest (`strict_prod_v2`, ~5y). Regeneration steps live in the **QuantBuild** repository README; this copy is for suite-level storytelling when someone lands on OS first:
+Cumulative R from a reproducible XAUUSD backtest (`strict_prod_v2`, ~5y). Regeneration steps live in the **`quantbuildv1`** README; this copy is for suite-level storytelling when someone lands here first:
 
-![QuantBuild backtest equity (cumulative R)](docs/assets/equity_curve_5y.png)
+![quantbuildv1 backtest equity (cumulative R)](docs/assets/equity_curve_5y.png)
 
 ---
 
 ## Architecture
 
-![QuantMetrics suite architecture](docs/assets/quantmetrics-suite-architecture.svg)
+![Quant suite architecture](docs/assets/quantmetrics-suite-architecture.svg)
 
 <details>
 <summary>Plain-text diagram (fallback)</summary>
 
 ```
-                    ┌──────────────────┐
-                    │  QuantMetrics OS  │  paths, env, unified CLI
-                    └─────────┬────────┘
+                    ┌────────────────────┐
+                    │  quantmetrics_os   │  paths, env, unified CLI
+                    └─────────┬──────────┘
                               │
    Market data ───────────────┼──────────────────────────────┐
                               ▼                              │
-                    ┌──────────────────┐                     │
-                    │    QuantBuild    │  signals, risk,    │
-                    │                  │  strategy loop     │
-                    └─────────┬────────┘                     │
+                    ┌────────────────────┐                     │
+                    │   quantbuildv1     │  signals, risk,    │
+                    │                    │  strategy loop     │
+                    └─────────┬──────────┘                     │
                               ▼                              │
-                    ┌──────────────────┐                     │
-                    │   QuantBridge    │  broker execution, │
-                    │                  │  cTrader / IC path │
-                    └─────────┬────────┘                     │
+                    ┌────────────────────┐                     │
+                    │  quantbridgev1     │  broker execution, │
+                    │                    │  cTrader / IC path │
+                    └─────────┬──────────┘                     │
                               ▼                              │
-                    ┌──────────────────┐                     │
-                    │    QuantLog      │  JSONL events,      │
-                    │                  │  validate, reports  │
-                    └─────────┬────────┘                     │
-                              └──────── post-run analysis──┘
+                    ┌────────────────────┐                     │
+                    │    quantlogv1      │  JSONL events,      │
+                    │                    │  validate, reports  │
+                    └─────────┬──────────┘                     │
+                              └──────── post-run ──► quantanalyticsv1 (JSONL) ───┘
 ```
 
 </details>
 
 ---
 
-## What each component proves
+## What each repo proves
 
-| Component | What it demonstrates |
+| Repo | What it demonstrates |
 | --- | --- |
-| **QuantMetrics OS** | You treat the stack as **production software**: explicit wiring, reproducible launches, and a clear seam between orchestration and domain code. |
-| **QuantBuild** | **Systematic edge**: backtests, risk gates, prop-style constraints (e.g. FTMC), and a test-backed signal/risk core — not a discretionary script. |
-| **QuantBridge** | **Real execution discipline**: broker integration, smoke/regression paths, and operational concerns (reconnect, health) separated from alpha. |
-| **QuantLog** | **Auditability**: append-only structured events, validation, and day-level scoring — the feedback loop that turns logs into improvements. |
+| `quantmetrics_os` | You treat the stack as **production software**: explicit wiring, reproducible launches, and a clear seam between orchestration and domain code. |
+| `quantbuildv1` | **Systematic edge**: backtests, risk gates, prop-style constraints (e.g. FTMC), and a test-backed signal/risk core — not a discretionary script. |
+| `quantbridgev1` | **Execution discipline**: broker integration, smoke/regression paths, and operational concerns (reconnect, health) separated from alpha. |
+| `quantlogv1` | **Auditability**: append-only structured events, validation, and day-level scoring — the feedback loop that turns logs into improvements. |
+| `quantanalyticsv1` | **Post-run insight** (read-only): funnel, no-trade reasons, and performance summaries from the same JSONL as `quantlogv1` — no mutation of logs. |
 
 ---
 
@@ -99,7 +103,7 @@ Cumulative R from a reproducible XAUUSD backtest (`strict_prod_v2`, ~5y). Regene
 | `orchestrator/qm.ps1` | Windows-friendly wrapper. |
 | `orchestrator/config.example.env` | Template for `QUANTBUILD_ROOT`, `QUANTBRIDGE_ROOT`, `QUANTLOG_ROOT`, optional `PYTHON`, configs. |
 | `orchestrator/config.vps.example.env` | VPS / Linux layout hints. |
-| `vscode/quant-suite.code-workspace` | Multi-root workspace (OS + Build + Bridge + Log). |
+| `vscode/quant-suite.code-workspace` | Multi-root workspace (OS + Build + Bridge + Log); add `quantanalyticsv1` locally if you use the analytics repo in the same tree. |
 | `scripts/clone_quant_suite.sh` | Optional clone/update helper and baseline `.env`. |
 | `docs/` | Roadmap, sprint plan, suite handouts. |
 
@@ -117,6 +121,7 @@ Strategy, broker adapters, and event schemas live in the **sibling repositories*
   quantbuildv1/
   quantbridgev1/
   quantlogv1/
+  quantanalyticsv1/    ← optional: CLI analytics on JSONL
 ```
 
 **Steps**
@@ -135,21 +140,21 @@ Strategy, broker adapters, and event schemas live in the **sibling repositories*
    | Goal | Command |
    | --- | --- |
    | Show resolved paths | `python quantmetrics.py check` |
-   | QuantBuild live (paper; no `--real`) | `python quantmetrics.py build -c configs/strict_prod_v2.yaml` |
-   | QuantBridge smoke (mock) | `python quantmetrics.py bridge smoke --mode mock` |
-   | QuantLog validate events | `python quantmetrics.py log validate-events -- --path <day-folder>` |
+   | `quantbuildv1` live (paper; no `--real`) | `python quantmetrics.py build -c configs/strict_prod_v2.yaml` |
+   | `quantbridgev1` smoke (mock) | `python quantmetrics.py bridge smoke --mode mock` |
+   | `quantlogv1` validate events | `python quantmetrics.py log validate-events -- --path <day-folder>` |
    | After a session | `python quantmetrics.py post-run YYYY-MM-DD` |
 
 Use `python quantmetrics.py --help` and per-subcommand `--help` for full options.
 
-**QuantBuild + live bridge:** set `QUANTBRIDGE_SRC_PATH` to QuantBridge’s `src` directory so Build can load the bridge module — see [Suite start handout](docs/SUITE_START_HANDOUT.md).
+**`quantbuildv1` + live bridge:** set `QUANTBRIDGE_SRC_PATH` to **`quantbridgev1`**’s `src` directory so build can load the bridge module — see [Suite start handout](docs/SUITE_START_HANDOUT.md).
 
 ---
 
 ## Requirements
 
 - Python on the host (or per-repo venvs); override with `PYTHON` in `.env` if needed.
-- Cloned **QuantBuild**, **QuantBridge**, and **QuantLog** repos with paths in `.env`.
+- Cloned **`quantbuildv1`**, **`quantbridgev1`**, and **`quantlogv1`** with paths in `.env` (clone **`quantanalyticsv1`** beside them when you run post-run JSONL reports).
 
 ---
 

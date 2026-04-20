@@ -5,16 +5,17 @@
 
 Python developer focused on **systematic, multi-asset trading infrastructure**: research, execution, and observability as separate, test-backed components — not a single monolith script.
 
-### QuantMetrics suite
+### Quant suite (repo names = GitHub slugs)
 
-| Role | Repo |
+| Repo | GitHub |
 | --- | --- |
-| **Orchestration (start here)** | [QuantMetrics OS](https://github.com/roelofgootjesgit/quantmetrics_os) |
-| **Signals & risk (QuantBuild)** | [quantbuildE1](https://github.com/roelofgootjesgit/quantbuildE1) |
-| **Execution / cTrader (QuantBridge)** | [quantBridge-v.1](https://github.com/roelofgootjesgit/quantBridge-v.1) |
-| **Events & run scoring (QuantLog)** | [quantlog-v.1](https://github.com/roelofgootjesgit/quantlog-v.1) |
+| `quantmetrics_os` | [roelofgootjesgit/quantmetrics_os](https://github.com/roelofgootjesgit/quantmetrics_os) |
+| `quantbuildv1` | [roelofgootjesgit/quantbuildv1](https://github.com/roelofgootjesgit/quantbuildv1) |
+| `quantbridgev1` | [roelofgootjesgit/quantbridgev1](https://github.com/roelofgootjesgit/quantbridgev1) |
+| `quantlogv1` | [roelofgootjesgit/quantlogv1](https://github.com/roelofgootjesgit/quantlogv1) |
+| `quantanalyticsv1` | [roelofgootjesgit/quantanalyticsv1](https://github.com/roelofgootjesgit/quantanalyticsv1) |
 
-- **Narrative + diagram + equity:** [QuantMetrics OS README](https://github.com/roelofgootjesgit/quantmetrics_os#readme) and [SHOWCASE.md](https://github.com/roelofgootjesgit/quantmetrics_os/blob/main/docs/SHOWCASE.md).
+- **Narrative + diagram + equity:** [`quantmetrics_os` README](https://github.com/roelofgootjesgit/quantmetrics_os#readme) and [SHOWCASE.md](https://github.com/roelofgootjesgit/quantmetrics_os/blob/main/docs/SHOWCASE.md).
 
 ### Published validation snapshot *(refresh when you cut a new release)*
 
@@ -24,4 +25,4 @@ Python developer focused on **systematic, multi-asset trading infrastructure**: 
 
 ### Pinned repos
 
-Pin **[QuantMetrics OS](https://github.com/roelofgootjesgit/quantmetrics_os)** and **[quantbuildE1](https://github.com/roelofgootjesgit/quantbuildE1)** on your GitHub profile.
+Pin in order: **`quantmetrics_os`** → **`quantbuildv1`** → **`quantbridgev1`** → **`quantlogv1`** → **`quantanalyticsv1`** (same links as above).

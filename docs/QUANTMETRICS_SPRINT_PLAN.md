@@ -12,12 +12,13 @@ Dit kun je zo in je repo zetten als bijvoorbeeld
 Dit werkplan zet de QuantMetrics roadmap om in **concrete ontwikkelsprints**.
 Doel: van losse bots → naar een **professioneel trading infrastructure platform**.
 
-De stack:
+De stack (productnamen):
 
 ```
-QuantBuild   → Strategy Engine
+QuantOS      → Orchestrator (repo-map: quantmetrics_os)
+QuantBuild   → Signal Engine
 QuantBridge  → Execution Engine
-QuantLog     → Event Logging
+QuantLog     → Observability Layer
 QuantStats   → Daily Analytics
 QuantResearch→ Backtesting & Research
 QuantDeploy  → Deployment & Multi Account

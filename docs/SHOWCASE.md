@@ -1,4 +1,4 @@
-# QuantMetrics — suite showcase
+# Quant suite — showcase (QuantOS + siblings)
 
 Technical overview for recruiters, clients, and collaborators: **what problem this stack solves**, **why it is structured this way**, **what has been validated**, and **where deployment is headed**.
 
@@ -10,13 +10,13 @@ This document complements the [root README](../README.md) (quick orientation) an
 
 Discretionary trading and one-off scripts do not scale: edge is hard to separate from luck, execution drift is invisible, and post-trade learning is usually anecdotal.
 
-The QuantMetrics stack aims to make systematic trading **testable**, **executable**, and **auditable**:
+The Quant suite aims to make systematic trading **testable**, **executable**, and **auditable**:
 
-- **Testable** — hypotheses and risk rules live in code with automated checks and backtests (QuantBuild).
-- **Executable** — broker-facing logic is isolated, smoke-tested, and regression-tested (QuantBridge).
-- **Auditable** — decisions and fills become structured events that can be validated, summarized, and scored (QuantLog).
+- **Testable** — hypotheses and risk rules live in code with automated checks and backtests (**QuantBuild — Signal Engine**).
+- **Executable** — broker-facing logic is isolated, smoke-tested, and regression-tested (**QuantBridge — Execution Engine**).
+- **Auditable** — decisions and fills become structured events that can be validated, summarized, and scored (**QuantLog — Observability Layer**).
 
-**QuantMetrics OS** is the orchestration layer: one entry surface for paths, environment, and subprocess launches so the three domains run as a **single system** instead of three disconnected checkouts.
+**QuantOS — Orchestrator** (this repo, folder `quantmetrics_os/`) is the orchestration layer: one entry surface for paths, environment, and subprocess launches so the three domains run as a **single system** instead of three disconnected checkouts.
 
 ---
 
@@ -44,7 +44,7 @@ Figures below are **published as static suite-level metrics** in the OS README; 
 | Backtest quality | Profit factor, win rate, max drawdown from controlled backtests (e.g. PF ~5.2, WR ~70%, MDD ~−7%) |
 | Prop-style stress | FTMO-style Monte Carlo pass rate (~51% in published example) |
 
-**Equity curve:** see `docs/assets/equity_curve_5y.png` in this repo (synced copy). Regenerate from QuantBuild with `scripts/export_equity_chart.py` (same PNG is written under `quantbuildv1/docs/assets/` and copied to `quantmetrics_os/docs/assets/` when the sibling folder exists). Caption in the READMEs distinguishes **multi-instrument headline metrics** from this **single-config XAUUSD** chart.
+**Equity curve:** see `docs/assets/equity_curve_5y.png` in this repo (synced copy). Regenerate from QuantBuild with `scripts/export_equity_chart.py` (same PNG is written under `quantbuildv1/docs/assets/` and copied to **`quantmetrics_os/docs/assets/`** when the QuantOS sibling folder exists). Caption in the READMEs distinguishes **multi-instrument headline metrics** from this **single-config XAUUSD** chart.
 
 ---
 
@@ -65,11 +65,12 @@ Details and sprint alignment: [Roadmap_os.md](Roadmap_os.md), [QUANTMETRICS_SPRI
 
 - **Run the suite:** [SUITE_START_HANDOUT.md](SUITE_START_HANDOUT.md)
 - **Repo map and CLI:** [README](../README.md)
-- **GitHub (default remote names from `scripts/clone_quant_suite.sh`):**
-  - [QuantMetrics OS](https://github.com/roelofgootjesgit/quantmetrics_os)
-  - [quantbuildE1](https://github.com/roelofgootjesgit/quantbuildE1)
-  - [quantBridge-v.1](https://github.com/roelofgootjesgit/quantBridge-v.1)
-  - [quantlog-v.1](https://github.com/roelofgootjesgit/quantlog-v.1)
+- **GitHub (repo slugs):**
+  - [`quantmetrics_os`](https://github.com/roelofgootjesgit/quantmetrics_os)
+  - [`quantbuildv1`](https://github.com/roelofgootjesgit/quantbuildv1)
+  - [`quantbridgev1`](https://github.com/roelofgootjesgit/quantbridgev1)
+  - [`quantlogv1`](https://github.com/roelofgootjesgit/quantlogv1)
+  - [`quantanalyticsv1`](https://github.com/roelofgootjesgit/quantanalyticsv1)
 
 ---
 

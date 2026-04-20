@@ -1,6 +1,8 @@
 
 # QuantMetrics — Roadmap
 
+**Suite-repo’s (technische namen):** **QuantOS** — Orchestrator (checkout `quantmetrics_os/`) · **QuantBuild** — Signal Engine · **QuantBridge** — Execution Engine · **QuantLog** — Observability Layer. In dit document betekent **QuantMetrics** vooral het **platform / de visie**, niet alleen één repository.
+
 ## Trading Infrastructure & Research Platform
 
 ## Visie

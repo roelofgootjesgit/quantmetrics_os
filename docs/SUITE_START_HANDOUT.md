@@ -1,6 +1,6 @@
-# QuantMetrics OS — suite starten (handout)
+# QuantOS — suite starten (handout)
 
-Korte gids om **QuantBuild**, **QuantBridge** en **QuantLog** vanuit **quantmetrics_os** te draaien. De orchestrator staat in `orchestrator/` en start subprocessen met de juiste repo-root en `PYTHONPATH`.
+Korte gids om **QuantBuild** (signal engine), **QuantBridge** (execution engine) en **QuantLog** (observability layer) vanuit **QuantOS** te draaien — checkout-map **`quantmetrics_os/`**. De orchestrator staat in `orchestrator/` en start subprocessen met de juiste repo-root en `PYTHONPATH`.
 
 ---
 
@@ -27,7 +27,7 @@ Pas de paden aan als je repos ergens anders staan:
 Controleren of alles klopt:
 
 ```powershell
-cd C:\Users\Gebruiker\quantmetrics_os\orchestrator
+cd C:\Users\Gebruiker\quantmetrics_os\orchestrator   # QuantOS — Orchestrator
 python quantmetrics.py check
 ```
 
@@ -41,7 +41,7 @@ Of via het wrapper-script:
 
 ## 2. Veelgebruikte commando’s
 
-Alle voorbeelden: werkdirectory = `quantmetrics_os/orchestrator`.
+Alle voorbeelden: werkdirectory = `quantmetrics_os/orchestrator` (QuantOS).
 
 | Doel | Commando |
 |------|----------|
@@ -68,7 +68,7 @@ Open het multi-root workspace-bestand:
 vscode/quant-suite.code-workspace
 ```
 
-Daarmee staan **quantmetrics_os**, **quantbuildv1**, **quantbridgev1** en **quantlogv1** naast elkaar (broer-mappen onder dezelfde parent).
+Daarmee staan **quantmetrics_os** (QuantOS), **quantbuildv1** (QuantBuild), **quantbridgev1** (QuantBridge) en **quantlogv1** (QuantLog) naast elkaar (broer-mappen onder dezelfde parent).
 
 ---
 
@@ -88,7 +88,7 @@ Dit is **los** van `quantmetrics.py`; het hoort bij runs die **vanuit QuantBuild
 
 ```text
 <parent>/
-  quantmetrics_os/    ← orchestrator + deze docs
+  quantmetrics_os/    ← QuantOS — orchestrator + deze docs
   quantbuildv1/
   quantbridgev1/
   quantlogv1/
