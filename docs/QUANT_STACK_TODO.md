@@ -35,7 +35,7 @@ Leidende documenten: `QUANT_STACK_MVP_BLUEPRINT.md`, `QUANT_STACK_IMPLEMENTATION
 
 ## Fase 3 — QuantLog (validatie)
 
-- [ ] Schema-validatie: verplichte velden + enums (o.a. `decision_cycle_id` op keten-events)
+- [x] Schema-validatie (keten-MVP): verplichte `decision_cycle_id` op QuantBuild keten-events + `trade_id` bij `trade_action` ENTER; enums overig nog uitbreiden waar nodig
 - [ ] Sequence-validatie: decision chain + trade lifecycle
 - [ ] Referential checks: `trade_id`, `order_ref`, `decision_cycle_id` consistent
 - [ ] Minimaal één volledige run / handelsdag draaien + validatierapport
@@ -77,3 +77,4 @@ Leidende documenten: `QUANT_STACK_MVP_BLUEPRINT.md`, `QUANT_STACK_IMPLEMENTATION
 | 2026-04 | `decision_cycle_id` + tests/fixture; backtest `signal_detected` vóór `signal_evaluated` (`quantbuildv1`) |
 | 2026-04 | Guard-telemetry, `signal_evaluated`-blueprint merge, ENTER `trade_id`, `QUANT_STACK_TODO.md` (`quantbuildv1` + `quantmetrics_os`) |
 | 2026-04 | QuantBridge: fill-metrics op `OrderLifecycleResult`, canonieke `order_submitted` / `order_filled` via orchestrator + `trade_id` op JSONL (`quantbridgev1`) |
+| 2026-04 | QuantLog: validator + emitter voor keten-`decision_cycle_id` en ENTER-`trade_id`; contract-fixture en tests bijgewerkt (`quantlogv1`) |
