@@ -229,7 +229,16 @@ quantmetrics-guard-attribution-compare \
 
 (gebruik jouw echte consolidated JSONL-locatie voor `--dir` / `--jsonl`.)
 
-5. **Research** — handmatig of semi-automatisch `research/research_log.md`; beslissing in `research/decision.json` (of gelijkwaardig).
+5. **Research digest** — rol alle gebundelde runs op in één verslag voor QuantResearch:
+
+```bash
+cd quantmetrics_os
+python scripts/research_digest.py
+```
+
+Schrijft naar **`research/runs_digest.md`** (Markdown met tabel + per-run KEY_FINDINGS) en **`research/runs_registry.json`** (machine-leesbare index). Regenereer na nieuwe bundles onder `runs/`.
+
+6. **Eigen notities** — waar nodig nog `research/research_log.md` / `research/decision.json` voor hypotheses en finale beslissing (handmatig).
 
 ---
 
