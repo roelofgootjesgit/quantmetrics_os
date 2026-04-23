@@ -17,6 +17,7 @@ import sys
 from pathlib import Path
 
 _ORCHESTRATOR_DIR = Path(__file__).resolve().parent
+_QUANTMETRICS_OS_ROOT = _ORCHESTRATOR_DIR.parent
 
 # Resolve expected consolidated QuantLog JSONL from a QuantBuild YAML (same rules as backtest).
 _RESOLVE_QUANTLOG_JSONL = """\
@@ -155,6 +156,18 @@ def cmd_bridge_regression(args: argparse.Namespace) -> int:
     return int(subprocess.call(cmd, cwd=str(bridge_root), env=os.environ.copy()))
 
 
+def _run_research_digest(quantmetrics_os_root: Path) -> int:
+    """Regenerate research/runs_digest.md + runs_registry.json from runs/."""
+    script = quantmetrics_os_root / "scripts" / "research_digest.py"
+    if not script.is_file():
+        print(f"[quantmetrics] research_digest skipped (missing {script})", file=sys.stderr)
+        return 0
+    cmd = [sys.executable, str(script)]
+    print(f"+ {' '.join(cmd)}")
+    print(f"(cwd) {quantmetrics_os_root}")
+    return int(subprocess.call(cmd, cwd=str(quantmetrics_os_root), env=os.environ.copy()))
+
+
 def _run_quantanalytics(
     qb_root: Path,
     analytics_root: Path,
@@ -214,45 +227,53 @@ def cmd_backtest(args: argparse.Namespace) -> int:
     print(f"+ {' '.join(cmd)}")
     print(f"(cwd) {qb_root}")
     rc = int(subprocess.call(cmd, cwd=str(qb_root), env=env))
-    if rc != 0 or not getattr(args, "analyze", False):
+    if rc != 0:
         return rc
 
-    analytics_root = _require_dir("QUANTANALYTICS_ROOT")
+    analyze_rc = 0
+    if getattr(args, "analyze", False):
+        analytics_root = _require_dir("QUANTANALYTICS_ROOT")
 
-    jsonl_path: Path | None = None
-    if getattr(args, "analyze_jsonl", None):
-        jsonl_path = Path(args.analyze_jsonl).expanduser().resolve()
-        if not jsonl_path.is_file():
-            print(f"--analyze-jsonl is not a file: {jsonl_path}", file=sys.stderr)
-            return 5
-    else:
-        resolved = _resolve_quantlog_consolidated_jsonl(qb_root, python, config)
-        if resolved is not None and resolved.is_file():
-            jsonl_path = resolved
+        jsonl_path: Path | None = None
+        if getattr(args, "analyze_jsonl", None):
+            jsonl_path = Path(args.analyze_jsonl).expanduser().resolve()
+            if not jsonl_path.is_file():
+                print(f"--analyze-jsonl is not a file: {jsonl_path}", file=sys.stderr)
+                analyze_rc = 5
+        else:
+            resolved = _resolve_quantlog_consolidated_jsonl(qb_root, python, config)
+            if resolved is not None and resolved.is_file():
+                jsonl_path = resolved
 
-    tail: list[str] = []
-    if jsonl_path is not None:
-        tail.extend(["--jsonl", str(jsonl_path)])
-    elif getattr(args, "analyze_dir", None):
-        tail.extend(["--dir", str(Path(args.analyze_dir).expanduser().resolve())])
-    else:
-        print(
-            "Analyze skipped: could not find QuantLog JSONL. Options:\n"
-            "  • Enable quantlog + consolidated_run_file in the same YAML and re-run, or\n"
-            "  • Pass --analyze-jsonl PATH to the JSONL produced by the run, or\n"
-            "  • Pass --analyze-dir DIR (all *.jsonl under that tree).",
-            file=sys.stderr,
-        )
-        return 6
+        tail: list[str] = []
+        if analyze_rc == 0 and jsonl_path is not None:
+            tail.extend(["--jsonl", str(jsonl_path)])
+        elif analyze_rc == 0 and getattr(args, "analyze_dir", None):
+            tail.extend(["--dir", str(Path(args.analyze_dir).expanduser().resolve())])
+        elif analyze_rc == 0:
+            print(
+                "Analyze skipped: could not find QuantLog JSONL. Options:\n"
+                "  • Enable quantlog + consolidated_run_file in the same YAML and re-run, or\n"
+                "  • Pass --analyze-jsonl PATH to the JSONL produced by the run, or\n"
+                "  • Pass --analyze-dir DIR (all *.jsonl under that tree).",
+                file=sys.stderr,
+            )
+            analyze_rc = 6
 
-    tail.extend(["--reports", args.analyze_reports])
-    if getattr(args, "analyze_output", None):
-        tail.extend(["--output", str(Path(args.analyze_output).expanduser().resolve())])
-    if getattr(args, "analyze_stdout", False):
-        tail.append("--stdout")
+        if analyze_rc == 0 and tail:
+            tail.extend(["--reports", args.analyze_reports])
+            if getattr(args, "analyze_output", None):
+                tail.extend(["--output", str(Path(args.analyze_output).expanduser().resolve())])
+            if getattr(args, "analyze_stdout", False):
+                tail.append("--stdout")
+            analyze_rc = _run_quantanalytics(qb_root, analytics_root, argv=tail)
 
-    ar = _run_quantanalytics(qb_root, analytics_root, argv=tail)
-    return ar
+    if not getattr(args, "no_research_digest", False):
+        dr = _run_research_digest(_QUANTMETRICS_OS_ROOT)
+        if dr != 0:
+            return dr
+
+    return analyze_rc
 
 
 def main() -> int:
@@ -314,6 +335,11 @@ def main() -> int:
         "--analyze-stdout",
         action="store_true",
         help="Forwarded to analytics --stdout (no output_rapport file)",
+    )
+    p_bt.add_argument(
+        "--no-research-digest",
+        action="store_true",
+        help="Skip scripts/research_digest.py after a successful backtest (default: run digest)",
     )
     p_bt.set_defaults(func=cmd_backtest)
 

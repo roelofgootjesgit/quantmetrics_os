@@ -54,6 +54,7 @@ Alle voorbeelden: werkdirectory = `quantmetrics_os/orchestrator` (QuantOS).
 | QuantBridge: regressiesuite | `python quantmetrics.py bridge regression` |
 | QuantLog CLI | `python quantmetrics.py log validate-events -- --path <pad-naar-dagmap>` |
 | Post-run keten (validate + summarize + score) | `python quantmetrics.py post-run 2026-03-29` |
+| QuantBuild backtest (na afloop automatisch `research/runs_digest.md` uit `runs/`) | `python quantmetrics.py backtest -c configs/<naam>.yaml` · uitschakelen: `--no-research-digest` |
 | Telegram suite start/stop (als in QuantBuild-YAML geconfigureerd) | `python quantmetrics.py notify start build bridge log` |
 
 Zie `orchestrator/quantmetrics.py` voor de volledige argparse-hulp (`--help` per subcommando waar van toepassing).
