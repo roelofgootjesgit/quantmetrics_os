@@ -1,0 +1,88 @@
+{
+  "meta": {
+    "comparison_mode": "level_b_guard_rerun",
+    "baseline_label": "EXP-2025-baseline",
+    "variant_label": "EXP-2025-D1-risk",
+    "baseline_run_id": "qb_run_20260423T044439Z_6b7e5f37",
+    "variant_run_id": "qb_run_20260423T044453Z_04c07854",
+    "guard_focus": "regime_allowed_sessions"
+  },
+  "baseline_metrics": {
+    "trade_count": 36,
+    "mean_r": 0.33333333333333637,
+    "sum_r": 12.00000000000011,
+    "winrate_pct": 44.44444444444444,
+    "wins": 16,
+    "losses": 20,
+    "max_dd_r": -9.0,
+    "profit_factor_like": 1.6000000000000056
+  },
+  "variant_metrics": {
+    "trade_count": 42,
+    "mean_r": 0.33333333333333487,
+    "sum_r": 14.000000000000064,
+    "winrate_pct": 42.857142857142854,
+    "wins": 18,
+    "losses": 24,
+    "max_dd_r": -4.499999999999971,
+    "profit_factor_like": 2.166666666666672
+  },
+  "delta_trade_metrics": {
+    "delta_mean_r": -0.0,
+    "delta_sum_r": 2.0,
+    "delta_winrate_pct": -1.587302,
+    "delta_max_dd_r": 4.5,
+    "delta_profit_factor_like": 0.566667,
+    "delta_trade_count": 6,
+    "delta_wins": 2,
+    "delta_losses": 4
+  },
+  "guard_blocks_baseline": {
+    "regime_allowed_sessions": 76,
+    "daily_loss_cap": 19,
+    "regime_profile": 10,
+    "max_trades_per_session": 7
+  },
+  "guard_blocks_variant": {
+    "regime_allowed_sessions": 85,
+    "max_trades_per_session": 11,
+    "regime_profile": 10
+  },
+  "guard_blocks_table": [
+    {
+      "guard_name": "daily_loss_cap",
+      "blocks_baseline": 19,
+      "blocks_variant": 0,
+      "delta_blocks": -19
+    },
+    {
+      "guard_name": "regime_allowed_sessions",
+      "blocks_baseline": 76,
+      "blocks_variant": 85,
+      "delta_blocks": 9,
+      "focus_guard": true
+    },
+    {
+      "guard_name": "max_trades_per_session",
+      "blocks_baseline": 7,
+      "blocks_variant": 11,
+      "delta_blocks": 4
+    },
+    {
+      "guard_name": "regime_profile",
+      "blocks_baseline": 10,
+      "blocks_variant": 10,
+      "delta_blocks": 0
+    }
+  ],
+  "interpretation_lines": [
+    "Variant adds +6 trades vs baseline (realized outcomes).",
+    "Max DD (R path) moves by +4.5000."
+  ],
+  "guard_focus_summary": {
+    "guard_name": "regime_allowed_sessions",
+    "blocks_baseline": 76,
+    "blocks_variant": 85,
+    "delta_blocks": 9
+  }
+}
